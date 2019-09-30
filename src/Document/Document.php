@@ -11,6 +11,8 @@ class Document implements DocumentInterface
     protected $score = 1.0;
     protected $noSave = false;
     protected $replace = false;
+    protected $partial = false;
+    protected $noCreate = false;
     protected $payload;
     protected $language;
 
@@ -51,6 +53,14 @@ class Document implements DocumentInterface
 
         if ($this->isReplace()) {
             $properties[] = 'REPLACE';
+
+            if ($this->isPartial()) {
+                $properties[] = 'PARTIAL';
+            }
+
+            if ($this->isNoCreate()) {
+                $properties[] = 'NOCREATE';
+            }
         }
 
         if (!is_null($this->getLanguage())) {
@@ -119,6 +129,28 @@ class Document implements DocumentInterface
     public function setReplace(bool $replace): Document
     {
         $this->replace = $replace;
+        return $this;
+    }
+
+    public function isPartial(): bool
+    {
+        return $this->partial;
+    }
+
+    public function setPartial(bool $partial): Document
+    {
+        $this->partial = $partial;
+        return $this;
+    }
+
+    public function isNoCreate(): bool
+    {
+        return $this->noCreate;
+    }
+
+    public function setNoCreate(bool $noCreate): Document
+    {
+        $this->noCreate = $noCreate;
         return $this;
     }
 
